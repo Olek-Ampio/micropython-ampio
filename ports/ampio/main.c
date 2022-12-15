@@ -77,11 +77,7 @@
 #include "usb.h"
 #include "rtc.h"
 #include "storage.h"
-#include "sdcard.h"
-#include "sdram.h"
 #include "rng.h"
-#include "accel.h"
-#include "servo.h"
 #include "dac.h"
 #include "can.h"
 
@@ -581,10 +577,6 @@ soft_reset:
     #if MICROPY_HW_HAS_MMA7660
     // MMA accel: init and reset
     accel_init();
-    #endif
-
-    #if MICROPY_HW_ENABLE_SERVO
-    servo_init();
     #endif
 
     #if MICROPY_PY_NETWORK

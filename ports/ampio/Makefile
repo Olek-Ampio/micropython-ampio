@@ -343,12 +343,7 @@ SRC_C += \
 	flashbdev.c \
 	spibdev.c \
 	storage.c \
-	sdcard.c \
-	sdram.c \
 	fatfs_port.c \
-	lcd.c \
-	accel.c \
-	servo.c \
 	dac.c \
 	adc.c \
 	sdio.c \

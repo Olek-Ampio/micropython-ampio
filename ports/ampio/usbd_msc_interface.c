@@ -31,7 +31,6 @@
 
 #include "extmod/vfs.h"
 #include "storage.h"
-#include "sdcard.h"
 
 #if MICROPY_HW_USB_MSC
 
