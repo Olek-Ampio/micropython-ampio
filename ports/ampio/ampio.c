@@ -123,7 +123,7 @@ STATIC void process_rx_byte(uint8_t rx_byte) {
 						rx_err();
 					}
 				}
-				else	//trzeba zwolnić bufor w przypadku błędu
+				else
 				{
 					rx_err();
 					if (rx_fifo_push_ptr == 0)
