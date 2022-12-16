@@ -228,7 +228,7 @@ STATIC mp_obj_t ampio_set_out(mp_obj_t mac_obj, mp_obj_t no_obj, mp_obj_t val_ob
 	if (no > 0) {
 		no--;
 	}
-    tab[0] = 0x01;
+    tab[0] = 0x11;
     tab[1] = (uint8_t)(mac >> 24);
     tab[2] = (uint8_t)(mac >> 16);
     tab[3] = (uint8_t)(mac >> 8);
