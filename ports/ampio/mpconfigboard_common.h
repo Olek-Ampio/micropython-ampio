@@ -74,7 +74,7 @@
 
 // Whether to enable the ADC peripheral, exposed as pyb.ADC and pyb.ADCAll
 #ifndef MICROPY_HW_ENABLE_ADC
-#define MICROPY_HW_ENABLE_ADC (1)
+#define MICROPY_HW_ENABLE_ADC (0)
 #endif
 
 // Whether to enable the DAC peripheral, exposed as pyb.DAC
@@ -119,7 +119,7 @@
 
 // Which SDMMC peripheral to use for the SD/MMC card driver (1 or 2)
 #ifndef MICROPY_HW_SDCARD_SDMMC
-#define MICROPY_HW_SDCARD_SDMMC (1)
+#define MICROPY_HW_SDCARD_SDMMC (0)
 #endif
 
 // SD/MMC card driver interface bus width (defaults to 4 bits)

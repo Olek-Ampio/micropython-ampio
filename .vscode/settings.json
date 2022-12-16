@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "ampio.h": "c",
+    "pin.h": "c"
+  }
+}

@@ -313,7 +313,6 @@ SRC_C += \
 	pyb_i2c.c \
 	spi.c \
 	pyb_spi.c \
-	qspi.c \
 	uart.c \
 	ulpi.c \
 	can.c \
@@ -347,6 +346,7 @@ SRC_C += \
 	dac.c \
 	adc.c \
 	sdio.c \
+	ampio.c \
 	$(wildcard $(BOARD_DIR)/*.c)
 
 SRC_O += \

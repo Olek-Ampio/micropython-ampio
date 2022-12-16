@@ -81,6 +81,8 @@
 #include "dac.h"
 #include "can.h"
 
+#include "ampio.h"
+
 #if MICROPY_PY_THREAD
 STATIC pyb_thread_t pyb_thread_main;
 #endif
@@ -583,6 +585,8 @@ soft_reset:
     mod_network_init();
     #endif
 
+    ampio_init();
+    
     // At this point everything is fully configured and initialised.
 
     // Run main.py (or whatever else a board configures at this stage).

@@ -851,13 +851,13 @@ void USART1_IRQHandler(void) {
     IRQ_EXIT(USART1_IRQn);
 }
 
-#if defined(USART2)
-void USART2_IRQHandler(void) {
-    IRQ_ENTER(USART2_IRQn);
-    uart_irq_handler(2);
-    IRQ_EXIT(USART2_IRQn);
-}
-#endif
+// #if defined(USART2)
+// void USART2_IRQHandler(void) {
+//     IRQ_ENTER(USART2_IRQn);
+//     uart_irq_handler(2);
+//     IRQ_EXIT(USART2_IRQn);
+// }
+// #endif
 
 #if defined(STM32F0)
 
