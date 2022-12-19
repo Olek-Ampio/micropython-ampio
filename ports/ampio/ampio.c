@@ -19,6 +19,7 @@ STATIC mp_obj_t can_msg_cb = mp_const_none;
 //#############################################################################
 STATIC void io_init(void);
 STATIC void timer_init(void);
+STATIC void ampio_can_send(uint8_t *data, uint8_t len);
 
 //#############################################################################
 void ampio_init(void)
@@ -45,7 +46,6 @@ STATIC void ampio_1ms(void)
 //##############################################################################
 void ampio_uart_can_ex_msg_cb(uint8_t *msg, uint8_t len)
 {
-	HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
 	HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
 	led_time = 10;
 
@@ -94,7 +94,7 @@ STATIC mp_obj_t ampio_set_out(mp_obj_t mac_obj, mp_obj_t no_obj, mp_obj_t val_ob
     tab[4] = (uint8_t)(mac >> 0);
     tab[5] = no;
     tab[6] = val;
-    ampio_uart_can_push_msg(tab, 7);
+    ampio_can_send(tab, 7);
 
     return mp_const_none;
 }
@@ -163,4 +163,12 @@ void TIM1_UP_TIM10_IRQHandler(void)
 		ampio_uart_can_1ms();	// => ampio_uart_can_ex_msg_cb
 //		ampio_uart_repl_1ms();
 	}
+}
+
+//##############################################################################
+STATIC void ampio_can_send(uint8_t *data, uint8_t len)
+{
+	__HAL_TIM_DISABLE_IT(&htim10, TIM_IT_UPDATE);
+	ampio_uart_can_push_msg(data, len);
+	__HAL_TIM_ENABLE_IT(&htim10, TIM_IT_UPDATE);
 }

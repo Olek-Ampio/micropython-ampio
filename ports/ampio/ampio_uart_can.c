@@ -57,7 +57,6 @@ void ampio_uart_can_init(void)
     /* USART2 interrupt Init */
     NVIC_SetPriority(USART2_IRQn, 1);
     HAL_NVIC_EnableIRQ(USART2_IRQn);
-	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
 
     huart2.Instance = USART2;
     huart2.Init.BaudRate = 115200;
@@ -68,6 +67,8 @@ void ampio_uart_can_init(void)
     huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     huart2.Init.OverSampling = UART_OVERSAMPLING_16;
     HAL_UART_Init(&huart2);
+	
+	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
 }
 
 //##############################################################################
