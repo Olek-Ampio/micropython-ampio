@@ -347,6 +347,7 @@ SRC_C += \
 	adc.c \
 	sdio.c \
 	ampio.c \
+	ampio_uart_can.c \
 	$(wildcard $(BOARD_DIR)/*.c)
 
 SRC_O += \

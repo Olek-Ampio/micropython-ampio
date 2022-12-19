@@ -620,12 +620,12 @@ void TIM1_BRK_TIM15_IRQHandler(void) {
 }
 #endif
 
-void TIM1_UP_TIM10_IRQHandler(void) {
-    IRQ_ENTER(TIM1_UP_TIM10_IRQn);
-    timer_irq_handler(1);
-    timer_irq_handler(10);
-    IRQ_EXIT(TIM1_UP_TIM10_IRQn);
-}
+// void TIM1_UP_TIM10_IRQHandler(void) {
+//     IRQ_ENTER(TIM1_UP_TIM10_IRQn);
+//     timer_irq_handler(1);
+//     timer_irq_handler(10);
+//     IRQ_EXIT(TIM1_UP_TIM10_IRQn);
+// }
 
 #if defined(STM32G4) || defined(STM32L4) || defined(STM32WB)
 void TIM1_UP_TIM16_IRQHandler(void) {
