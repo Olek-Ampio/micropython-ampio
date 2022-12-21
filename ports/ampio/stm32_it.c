@@ -80,7 +80,7 @@
 #include "uart.h"
 #include "storage.h"
 #include "dma.h"
-#include "i2c.h"
+//#include "i2c.h"
 #include "usb.h"
 
 #if defined(MICROPY_HW_USB_FS)

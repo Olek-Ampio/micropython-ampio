@@ -7,6 +7,9 @@
     "usrsw.h": "c",
     "portmodules.h": "c",
     "mpconfigboard_common.h": "c",
-    "ampio_uart_can.h": "c"
+    "ampio_uart_can.h": "c",
+    "ampio_hw.h": "c",
+    "runtime.h": "c",
+    "ampio_can.h": "c"
   }
 }

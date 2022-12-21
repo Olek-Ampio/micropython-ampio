@@ -37,13 +37,7 @@
 #if MICROPY_VFS_FAT
 
 static const char fresh_boot_py[] =
-    "# boot.py -- run on boot to configure USB and filesystem\r\n"
-    "# Put app code in main.py\r\n"
-    "\r\n"
-    "import machine\r\n"
-    "import pyb\r\n"
-    "pyb.country('US') # ISO 3166-1 Alpha-2 code, eg US, GB, DE, AU\r\n"
-    "#pyb.main('main.py') # main script to run after this one\r\n"
+    "import ampio\r\n"
 #if MICROPY_HW_ENABLE_USB
     "#pyb.usb_mode('VCP+MSC') # act as a serial and a storage device\r\n"
     "#pyb.usb_mode('VCP+HID') # act as a serial device and a mouse\r\n"
@@ -60,18 +54,7 @@ static const char fresh_pybcdc_inf[] =
 ;
 
 static const char fresh_readme_txt[] =
-    "This is a MicroPython board\r\n"
-    "\r\n"
-    "You can get started right away by writing your Python code in 'main.py'.\r\n"
-    "\r\n"
-    "For a serial prompt:\r\n"
-    " - Windows: you need to go to 'Device manager', right click on the unknown device,\r\n"
-    "   then update the driver software, using the 'pybcdc.inf' file found on this drive.\r\n"
-    "   Then use a terminal program like Hyperterminal or putty.\r\n"
-    " - Mac OS X: use the command: screen /dev/tty.usbmodem*\r\n"
-    " - Linux: use the command: screen /dev/ttyACM0\r\n"
-    "\r\n"
-    "Please visit http://micropython.org/help/ for further help.\r\n"
+    "This is a Ampio MicroPython board\r\n"
 ;
 #endif
 

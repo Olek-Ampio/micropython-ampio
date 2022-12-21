@@ -1,52 +1,39 @@
 #include "py/runtime.h"
 #include "py/mphal.h"
 
+#include "ampio_ver.h"
 #include "ampio.h"
-#include "ampio_uart_can.h"
+#include "ampio_hw.h"
+#include "ampio_can.h"
 
-#define VER_MA 0
-#define VER_MI 0
-#define VER_PA 3
-
-//0.0.3 - fix: ampio_set_out
-//0.0.2 - add: ampio_set_out
-
-STATIC TIM_HandleTypeDef htim10;
 STATIC uint16_t led_time;
 
 STATIC mp_obj_t can_msg_cb = mp_const_none;
 
 //#############################################################################
-STATIC void io_init(void);
-STATIC void timer_init(void);
-STATIC void ampio_can_send(uint8_t *data, uint8_t len);
-
-//#############################################################################
 void ampio_init(void)
 {
-	io_init();
-	timer_init();
-	ampio_uart_can_init();
+	ampio_hw_init();
 }
 
 //##############################################################################
-STATIC void ampio_1ms(void)
+void ampio_1ms(void)
 {
 	static uint8_t time = 200;
 
 	if (--time == 0) {
-	 	HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
+	 	ampio_hw_led_toggle(3);
 	}
 
 	if ( (led_time > 0) && (--led_time == 0)) {
-		HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+		ampio_hw_led_off(2);
 	}
 }
 
 //##############################################################################
 void ampio_uart_can_ex_msg_cb(uint8_t *msg, uint8_t len)
 {
-	HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+	ampio_hw_led_on(2);
 	led_time = 10;
 
 	if (msg[0] == MSG_TYPE_CAN_BROADCAST) {
@@ -55,7 +42,7 @@ void ampio_uart_can_ex_msg_cb(uint8_t *msg, uint8_t len)
 							  (uint32_t)msg[2] << 8 | msg[1];
 			if (can_msg_cb != mp_const_none) {
 				mp_obj_t can_id_obj = mp_obj_new_int_from_uint(can_id);
-				mp_obj_t can_data_obj = mp_obj_new_bytearray(len - 5, &msg[5]);
+				mp_obj_t can_data_obj = mp_obj_new_bytes(&msg[5], len - 5);
 				mp_call_function_2(can_msg_cb, can_id_obj, can_data_obj);
 			}
 		}
@@ -78,27 +65,33 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_1(ampio_set_callback_obj, ampio_set_callback);
 
 //#############################################################################
 STATIC mp_obj_t ampio_set_out(mp_obj_t mac_obj, mp_obj_t no_obj, mp_obj_t val_obj) {
-    uint8_t tab[10];
-
     int mac = mp_obj_get_int(mac_obj);
     int no = mp_obj_get_int(no_obj);
     int val = mp_obj_get_int(val_obj);
 
-	if (no > 0) {
-		no--;
-	}
-    tab[0] = 0x11;
-    tab[1] = (uint8_t)(mac >> 24);
-    tab[2] = (uint8_t)(mac >> 16);
-    tab[3] = (uint8_t)(mac >> 8);
-    tab[4] = (uint8_t)(mac >> 0);
-    tab[5] = no;
-    tab[6] = val;
-    ampio_can_send(tab, 7);
+	ampio_can_set_out(mac, no, val);
 
     return mp_const_none;
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_3(ampio_set_out_obj, ampio_set_out);
+
+//#############################################################################
+STATIC mp_obj_t ampio_send_broadcast_temperature(mp_obj_t mac0_obj, mp_obj_t temperature_obj) {
+    uint8_t mac0 = mp_obj_get_int(mac0_obj);
+    float temperature_f = mp_obj_get_float(temperature_obj);
+	uint16_t temperature = (int16_t)(temperature_f * 10) + 1000;
+
+	uint8_t tab[4];
+	tab[0] = 0xFE;
+	tab[1] = 0x06;
+	tab[2] = (uint8_t)(temperature >> 0);
+	tab[3] = (uint8_t)(temperature >> 8);
+
+	ampio_can_send_broadcast(mac0, tab, 4);
+
+    return mp_const_none;
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_2(ampio_send_broadcast_temperature_obj, ampio_send_broadcast_temperature);
 
 
 //#############################################################################
@@ -107,6 +100,7 @@ STATIC const mp_rom_map_elem_t ampio_module_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR_info), MP_ROM_PTR(&ampio_info_obj) },
 	{ MP_ROM_QSTR(MP_QSTR_set_callback), MP_ROM_PTR(&ampio_set_callback_obj) },
     { MP_ROM_QSTR(MP_QSTR_set_out), MP_ROM_PTR(&ampio_set_out_obj) },
+    { MP_ROM_QSTR(MP_QSTR_send_broadcast_temperature), MP_ROM_PTR(&ampio_send_broadcast_temperature_obj) },
 };
 STATIC MP_DEFINE_CONST_DICT(ampio_module_globals, ampio_module_globals_table);
 
@@ -116,59 +110,3 @@ const mp_obj_module_t ampio_module = {
 };
 
 MP_REGISTER_MODULE(MP_QSTR_ampio, ampio_module);
-
-
-//##############################################################################
-STATIC void io_init(void)
-{
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-
-  HAL_GPIO_WritePin(GPIOB, LED1_Pin|LED2_Pin|LED3_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pins : LED1_Pin LED2_Pin LED3_Pin */
-  GPIO_InitStruct.Pin = LED1_Pin|LED2_Pin|LED3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-}
-
-//##############################################################################
-STATIC void timer_init(void)
-{
-	__HAL_RCC_TIM10_CLK_ENABLE();
-	HAL_NVIC_SetPriority(TIM1_UP_TIM10_IRQn, 0, 3);
-	HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
-
-	htim10.Instance = TIM10;
-	htim10.Init.Prescaler = 83;
-	htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim10.Init.Period = 1000 - 1;
-	htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-	HAL_TIM_Base_Init(&htim10);
-	HAL_TIM_Base_Start_IT(&htim10);
-}
-
-//##############################################################################
-void TIM1_UP_TIM10_IRQHandler(void)
-{
-	if ( (__HAL_TIM_GET_FLAG(&htim10, TIM_FLAG_UPDATE) != RESET) &&
-		 (__HAL_TIM_GET_IT_SOURCE(&htim10, TIM_IT_UPDATE) != RESET) )
-	{
-		__HAL_TIM_CLEAR_IT(&htim10, TIM_IT_UPDATE);
-
-		ampio_1ms();
-		ampio_uart_can_1ms();	// => ampio_uart_can_ex_msg_cb
-//		ampio_uart_repl_1ms();
-	}
-}
-
-//##############################################################################
-STATIC void ampio_can_send(uint8_t *data, uint8_t len)
-{
-	__HAL_TIM_DISABLE_IT(&htim10, TIM_IT_UPDATE);
-	ampio_uart_can_push_msg(data, len);
-	__HAL_TIM_ENABLE_IT(&htim10, TIM_IT_UPDATE);
-}
