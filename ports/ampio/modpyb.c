@@ -35,16 +35,20 @@
 #include "led.h"
 #include "timer.h"
 #include "extint.h"
-//#include "usrsw.h"
+#include "usrsw.h"
 #include "rng.h"
 #include "rtc.h"
-//#include "i2c.h"
+#include "i2c.h"
 #include "spi.h"
 #include "uart.h"
-//#include "can.h"
-//#include "adc.h"
+#include "can.h"
+#include "adc.h"
 #include "storage.h"
-//#include "dac.h"
+#include "sdcard.h"
+#include "accel.h"
+#include "servo.h"
+#include "dac.h"
+#include "lcd.h"
 #include "usb.h"
 #include "portmodules.h"
 #include "modmachine.h"
@@ -229,7 +233,7 @@ STATIC const mp_rom_map_elem_t pyb_module_globals_table[] = {
     #if MICROPY_PY_PYB_LEGACY && MICROPY_HW_ENABLE_HW_I2C
     { MP_ROM_QSTR(MP_QSTR_I2C), MP_ROM_PTR(&pyb_i2c_type) },
     #endif
-    // { MP_ROM_QSTR(MP_QSTR_SPI), MP_ROM_PTR(&pyb_spi_type) },
+    { MP_ROM_QSTR(MP_QSTR_SPI), MP_ROM_PTR(&pyb_spi_type) },
     { MP_ROM_QSTR(MP_QSTR_UART), MP_ROM_PTR(&pyb_uart_type) },
     #if MICROPY_HW_ENABLE_CAN
     { MP_ROM_QSTR(MP_QSTR_CAN), MP_ROM_PTR(&pyb_can_type) },

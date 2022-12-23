@@ -1,15 +1,5 @@
 {
   "files.associations": {
-    "ampio.h": "c",
-    "pin.h": "c",
-    "timer.h": "c",
-    "gc.h": "c",
-    "usrsw.h": "c",
-    "portmodules.h": "c",
-    "mpconfigboard_common.h": "c",
-    "ampio_uart_can.h": "c",
-    "ampio_hw.h": "c",
-    "runtime.h": "c",
-    "ampio_can.h": "c"
+    "mpconfigboard.h": "c"
   }
 }

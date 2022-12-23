@@ -1,11 +1,15 @@
 {
-  "deploy": ["../deploy.md"],
-  "docs": "",
-  "features": [],
-  "images": ["stm32f411disc.jpg"],
-  "mcu": "stm32f4",
-  "product": "Ampio F411",
-  "thumbnail": "",
-  "url": "",
-  "vendor": "ST Microelectronics"
+    "deploy": [
+        "../deploy.md"
+    ],
+    "docs": "",
+    "features": [],
+    "images": [
+        "stm32f411disc.jpg"
+    ],
+    "mcu": "stm32f4",
+    "product": "Discovery F411",
+    "thumbnail": "",
+    "url": "",
+    "vendor": "ST Microelectronics"
 }

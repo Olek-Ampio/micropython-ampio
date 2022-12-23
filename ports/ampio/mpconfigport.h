@@ -116,16 +116,16 @@
 #ifndef MICROPY_PY_MACHINE
 #define MICROPY_PY_MACHINE          (1)
 #ifndef MICROPY_PY_MACHINE_BITSTREAM
-#define MICROPY_PY_MACHINE_BITSTREAM (0)
+#define MICROPY_PY_MACHINE_BITSTREAM (1)
 #endif
-#define MICROPY_PY_MACHINE_PULSE    (1)
+#define MICROPY_PY_MACHINE_PULSE    (0)
 #define MICROPY_PY_MACHINE_PIN_MAKE_NEW mp_pin_make_new
-#define MICROPY_PY_MACHINE_I2C      (1)
-#define MICROPY_PY_MACHINE_SOFTI2C  (1)
-#define MICROPY_PY_MACHINE_SPI      (1)
+#define MICROPY_PY_MACHINE_I2C      (0)
+#define MICROPY_PY_MACHINE_SOFTI2C  (0)
+#define MICROPY_PY_MACHINE_SPI      (0)
 #define MICROPY_PY_MACHINE_SPI_MSB  (SPI_FIRSTBIT_MSB)
 #define MICROPY_PY_MACHINE_SPI_LSB  (SPI_FIRSTBIT_LSB)
-#define MICROPY_PY_MACHINE_SOFTSPI  (1)
+#define MICROPY_PY_MACHINE_SOFTSPI  (0)
 #define MICROPY_PY_MACHINE_TIMER    (1)
 #endif
 #define MICROPY_HW_SOFTSPI_MIN_DELAY (0)
@@ -191,11 +191,7 @@ extern const struct _mp_obj_type_t mp_network_cyw43_type;
 #endif
 
 #if MICROPY_PY_NETWORK_WIZNET5K
-#if MICROPY_PY_LWIP
 extern const struct _mp_obj_type_t mod_network_nic_type_wiznet5k;
-#else
-extern const struct _mod_network_nic_type_t mod_network_nic_type_wiznet5k;
-#endif
 #define MICROPY_HW_NIC_WIZNET5K             { MP_ROM_QSTR(MP_QSTR_WIZNET5K), MP_ROM_PTR(&mod_network_nic_type_wiznet5k) },
 #else
 #define MICROPY_HW_NIC_WIZNET5K

@@ -1,5 +1,5 @@
 # Select the board to build for: if not given on the command line,
-# then default to STM32F411DISC.
+# then default to PYBV10.
 BOARD ?= STM32F411DISC
 
 # If the build directory is not given, make it reflect the board name.
@@ -279,7 +279,6 @@ DRIVERS_SRC_C += $(addprefix drivers/,\
 	bus/softspi.c \
 	bus/softqspi.c \
 	memory/spiflash.c \
-	dht/dht.c \
 	)
 
 SRC_C += \
@@ -293,11 +292,13 @@ SRC_C += \
 	usbd_msc_interface.c \
 	mphalport.c \
 	mpnetworkport.c \
+	mpthreadport.c \
 	irq.c \
 	pendsv.c \
 	systick.c  \
 	powerctrl.c \
 	powerctrlboot.c \
+	rfcore.c \
 	pybthread.c \
 	factoryreset.c \
 	timer.c \
@@ -307,31 +308,52 @@ SRC_C += \
 	pin_named_pins.c \
 	bufhelper.c \
 	dma.c \
+	i2c.c \
+	pyb_i2c.c \
 	spi.c \
+	qspi.c \
 	uart.c \
 	ulpi.c \
+	can.c \
+	fdcan.c \
+	pyb_can.c \
 	usb.c \
 	wdt.c \
+	eth.c \
 	gccollect.c \
 	help.c \
+	machine_adc.c \
+	machine_bitstream.c \
+	machine_i2c.c \
+	machine_i2s.c \
+	machine_spi.c \
 	machine_uart.c \
 	modmachine.c \
 	modpyb.c \
 	modstm.c \
 	modutime.c \
+	network_lan.c \
 	extint.c \
+	usrsw.c \
 	rng.c \
 	rtc.c \
 	flash.c \
 	flashbdev.c \
 	spibdev.c \
 	storage.c \
+	sdcard.c \
+	sdram.c \
 	fatfs_port.c \
+	lcd.c \
+	accel.c \
+	servo.c \
+	dac.c \
+	adc.c \
 	sdio.c \
-	ampio.c \
-	ampio_hw.c \
 	ampio_can.c \
+	ampio_hw.c \
 	ampio_uart_can.c \
+	ampio.c \
 	$(wildcard $(BOARD_DIR)/*.c)
 
 SRC_O += \

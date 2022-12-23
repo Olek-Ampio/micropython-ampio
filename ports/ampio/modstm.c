@@ -30,7 +30,7 @@
 #include "py/obj.h"
 #include "py/objint.h"
 #include "extmod/machine_mem.h"
-//#include "rfcore.h"
+#include "rfcore.h"
 #include "portmodules.h"
 
 #if MICROPY_PY_STM

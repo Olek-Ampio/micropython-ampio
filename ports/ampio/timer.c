@@ -30,6 +30,7 @@
 #include "py/runtime.h"
 #include "py/gc.h"
 #include "timer.h"
+#include "servo.h"
 #include "pin.h"
 #include "irq.h"
 
@@ -219,6 +220,11 @@ TIM_HandleTypeDef *timer_tim6_init(uint freq) {
 
 // Interrupt dispatch
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+    #if MICROPY_HW_ENABLE_SERVO
+    if (htim == &TIM5_Handle) {
+        servo_timer_irq_callback();
+    }
+    #endif
 }
 
 // Get the frequency (in Hz) of the source clock for the given timer.

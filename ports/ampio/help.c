@@ -27,16 +27,6 @@
 #include "py/builtin.h"
 
 const char stm32_help_text[] =
-    "Welcome to Ampio MicroPython!\n"
+    "Welcome to MicroPython!\n"
     "\n"
-    "\n"
-    "Control commands:\n"
-    "  CTRL-A        -- on a blank line, enter raw REPL mode\n"
-    "  CTRL-B        -- on a blank line, enter normal REPL mode\n"
-    "  CTRL-C        -- interrupt a running program\n"
-    "  CTRL-D        -- on a blank line, do a soft reset of the board\n"
-    "  CTRL-E        -- on a blank line, enter paste mode\n"
-    "\n"
-    "For further help on a specific object, type help(obj)\n"
-    "For a list of available modules, type help('modules')\n"
 ;

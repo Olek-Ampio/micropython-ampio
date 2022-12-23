@@ -16,7 +16,6 @@ SRC_EXTMOD_C += \
 	extmod/modframebuf.c \
 	extmod/modlwip.c \
 	extmod/modnetwork.c \
-	extmod/modonewire.c \
 	extmod/moduasyncio.c \
 	extmod/modubinascii.c \
 	extmod/moducryptolib.c \

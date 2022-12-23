@@ -42,6 +42,7 @@
 #include "shared/runtime/mpirq.h"
 #include "bufhelper.h"
 #include "storage.h"
+#include "sdcard.h"
 #include "usb.h"
 
 #if MICROPY_HW_ENABLE_USB

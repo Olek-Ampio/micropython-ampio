@@ -38,10 +38,6 @@
 
 static const char fresh_boot_py[] =
     "import ampio\r\n"
-#if MICROPY_HW_ENABLE_USB
-    "#pyb.usb_mode('VCP+MSC') # act as a serial and a storage device\r\n"
-    "#pyb.usb_mode('VCP+HID') # act as a serial device and a mouse\r\n"
-#endif
 ;
 
 static const char fresh_main_py[] =
@@ -54,8 +50,7 @@ static const char fresh_pybcdc_inf[] =
 ;
 
 static const char fresh_readme_txt[] =
-    "This is a Ampio MicroPython board\r\n"
-;
+    "This is a Ampio MicroPython board\r\n";
 #endif
 
 typedef struct _factory_file_t {
@@ -88,7 +83,7 @@ MP_WEAK void factory_reset_make_files(FATFS *fatfs) {
 
 MP_WEAK int factory_reset_create_filesystem(void) {
     // LED on to indicate creation of local filesystem
-    led_state(PYB_LED_GREEN, 1);
+    led_state(PYB_LED_2, 1);
     uint32_t start_tick = HAL_GetTick();
 
     fs_user_mount_t vfs;
@@ -109,7 +104,7 @@ MP_WEAK int factory_reset_create_filesystem(void) {
 
     // Keep LED on for at least 200ms
     systick_wait_at_least(start_tick, 200);
-    led_state(PYB_LED_GREEN, 0);
+    led_state(PYB_LED_2, 0);
 
     return 0; // success
 }
