@@ -9,5 +9,6 @@
 
 void ampio_can_set_out(uint32_t mac, uint8_t no, uint8_t val);
 void ampio_can_send_broadcast(uint8_t mac0, uint8_t data[8], uint8_t len);
+void ampio_can_send_raw(uint32_t mac, uint8_t *data, uint8_t len);
 
 #endif /* AMPIO_CAN_H_ */

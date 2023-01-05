@@ -1,5 +1,6 @@
 {
   "files.associations": {
-    "mpconfigboard.h": "c"
+    "mpconfigboard.h": "c",
+    "ampio_hw.h": "c"
   }
 }

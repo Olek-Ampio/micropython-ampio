@@ -82,9 +82,27 @@ STATIC mp_obj_t ampio_set_out(mp_obj_t mac_obj, mp_obj_t no_obj, mp_obj_t val_ob
 STATIC MP_DEFINE_CONST_FUN_OBJ_3(ampio_set_out_obj, ampio_set_out);
 
 //#############################################################################
+STATIC mp_obj_t ampio_send_raw(mp_obj_t mac_obj, mp_obj_t data_obj) {
+
+	uint32_t mac = mp_obj_get_int(mac_obj);
+	mp_buffer_info_t data;
+	mp_get_buffer_raise(data_obj, &data, MP_BUFFER_READ);
+
+	if (data.len == 0 || data.len > 200) {
+		mp_printf(&mp_plat_print, "len is \n");
+		return mp_const_none;
+	}
+	
+	ampio_can_send_raw(mac, data.buf, data.len);
+
+  return mp_const_none;
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_2(ampio_send_raw_obj, ampio_send_raw);
+
+//#############################################################################
 STATIC mp_obj_t ampio_send_broadcast_temperature(mp_obj_t mac0_obj, mp_obj_t temperature_obj) {
-    uint8_t mac0 = mp_obj_get_int(mac0_obj);
-    float temperature_f = mp_obj_get_float(temperature_obj);
+  uint8_t mac0 = mp_obj_get_int(mac0_obj);
+  float temperature_f = mp_obj_get_float(temperature_obj);
 	uint16_t temperature = (int16_t)(temperature_f * 10) + 1000;
 
 	uint8_t tab[4];
@@ -95,7 +113,7 @@ STATIC mp_obj_t ampio_send_broadcast_temperature(mp_obj_t mac0_obj, mp_obj_t tem
 
 	ampio_can_send_broadcast(mac0, tab, 4);
 
-    return mp_const_none;
+  return mp_const_none;
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_2(ampio_send_broadcast_temperature_obj, ampio_send_broadcast_temperature);
 
@@ -107,6 +125,7 @@ STATIC const mp_rom_map_elem_t ampio_module_globals_table[] = {
 	{ MP_ROM_QSTR(MP_QSTR_set_callback), MP_ROM_PTR(&ampio_set_callback_obj) },
     { MP_ROM_QSTR(MP_QSTR_set_out), MP_ROM_PTR(&ampio_set_out_obj) },
     { MP_ROM_QSTR(MP_QSTR_send_broadcast_temperature), MP_ROM_PTR(&ampio_send_broadcast_temperature_obj) },
+		{ MP_ROM_QSTR(MP_QSTR_send_raw), MP_ROM_PTR(&ampio_send_raw_obj) },
 };
 STATIC MP_DEFINE_CONST_DICT(ampio_module_globals, ampio_module_globals_table);
 
