@@ -88,8 +88,12 @@ STATIC mp_obj_t ampio_send_raw(mp_obj_t mac_obj, mp_obj_t data_obj) {
 	mp_buffer_info_t data;
 	mp_get_buffer_raise(data_obj, &data, MP_BUFFER_READ);
 
-	if (data.len == 0 || data.len > 200) {
-		mp_printf(&mp_plat_print, "len is \n");
+	if (data.len == 0) {
+		mp_printf(&mp_plat_print, "len is 0\n");
+		return mp_const_none;
+	}
+	if (data.len > 200) {
+		mp_printf(&mp_plat_print, "len is > 200\n");
 		return mp_const_none;
 	}
 	
